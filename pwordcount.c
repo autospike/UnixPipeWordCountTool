@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "main.h"
+#include "pwordcount.h"
 
 int main(void) {
     printf("Starting main\n");

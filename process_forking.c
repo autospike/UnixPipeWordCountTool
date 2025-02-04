@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include "main.h"
+#include "pwordcount.h"
 
 int process_forking(void) {
     int counter = 0;
