@@ -1,37 +1,7 @@
 #include <stdio.h>
-#include <errno.h>
 #include <stdlib.h>
+#include <errno.h>
 #include <string.h>
-#include "pwordcount.h"
-
-char *read_file(char *file_name);
-
-int main(int argc, char *argv[]) {
-    printf("Starting main\n");
-
-    //Check the number of arguments to ensure there are not too many or too few
-    if (argc != 2) {
-        printf("Please enter a file name.\nUsage: ./pwordcount <file_name>\n");
-        return -1;
-    }
-    
-    //Read the inpup file name out of the argument array
-    char *file_name = argv[1];
-    //Call read_file()
-    char *buffer = read_file(file_name);
-
-    //Create pipes and fork
-    //printf("Entering process_forking\n");
-    //process_forking();
-    //printf("Returned from process_forking\n");
-    
-    //Do work and return
-    
-
-    //Print output
-
-    return 0;
-}
 
 //Check for, open, and load input file
 char *read_file(char *file_name) {
@@ -67,6 +37,8 @@ char *read_file(char *file_name) {
     }
     //If the file can be opened
     else {
+        printf("Process 1 is reading file ''%s'' now ...\n", file_name);
+
         //Move file pointer to eof
         fseek(file, 0, SEEK_END);
         //Now that we have moved file pointer to the end, save that position as the file size
@@ -74,6 +46,7 @@ char *read_file(char *file_name) {
         //Return file pointer to the beginning of the file
         rewind(file);
         
+        //NEED TO STOP CHILD
         if (file_size == 0) {
             printf("Error: This file is empty\n");
             exit(EXIT_FAILURE);
@@ -86,7 +59,6 @@ char *read_file(char *file_name) {
             //Add null terminator
             buffer[file_size] = '\0';
             fclose(file);
-            printf("%s\n", buffer);
             return buffer;
         }
     }
