@@ -14,7 +14,7 @@ char *read_file(char *file_name) {
     //If there is no "." or the ramaining chars are not "txt", print error and exit
     if (ext == NULL || strcmp(ext, ".txt") != 0) {
         printf("Error: %s is not a text file\n", file_name);
-        exit(EXIT_FAILURE);
+        return NULL;
     }
 
     //If the file can't be opened
@@ -22,17 +22,17 @@ char *read_file(char *file_name) {
         //File dne
         if (errno == ENOENT) {
             printf("Error: The file %s does not exist\n", file_name);
-            exit(EXIT_FAILURE);
+            return NULL;;
         }
         //Insufficient perms
         else if (errno == EACCES) {
             printf("Error: You do not have sufficient permissions to open %s\n", file_name);
-            exit(EXIT_FAILURE);
+            return NULL;;
         }
         //Catchall
         else {
             printf("Error: Could not open file %s : %s\n", file_name, strerror(errno));
-            exit(EXIT_FAILURE);
+            return NULL;
         }
     }
     //If the file can be opened
@@ -49,7 +49,7 @@ char *read_file(char *file_name) {
         //NEED TO STOP CHILD
         if (file_size == 0) {
             printf("Error: This file is empty\n");
-            exit(EXIT_FAILURE);
+            return NULL;
         }
         else {
             //Create a buffer the size of the file + 1 (to add null terminator)
