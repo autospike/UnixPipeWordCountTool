@@ -11,9 +11,9 @@ char *read_file(char *file_name) {
     //Ensure that the file is a text file
     //Check for a "".""
     char *ext = strrchr(file_name, '.');
-    //If there is no "." or the ramaining chars are not "txt", print error and exit
+    //If there is no "." or the remaining chars are not "txt", print error and exit
     if (ext == NULL || strcmp(ext, ".txt") != 0) {
-        printf("Error: %s is not a text file\n", file_name);
+        printf("Error: '%s' is not a text file\n", file_name);
         return NULL;
     }
 
@@ -26,18 +26,18 @@ char *read_file(char *file_name) {
         }
         //Insufficient perms
         else if (errno == EACCES) {
-            printf("Error: You do not have sufficient permissions to open %s\n", file_name);
+            printf("Error: You do not have sufficient permissions to open '%s'\n", file_name);
             return NULL;;
         }
         //Catchall
         else {
-            printf("Error: Could not open file %s : %s\n", file_name, strerror(errno));
+            printf("Error: Could not open file '%s' : %s\n", file_name, strerror(errno));
             return NULL;
         }
     }
     //If the file can be opened
     else {
-        printf("Process 1 is reading file ''%s'' now ...\n", file_name);
+        printf("Process 1: Reading file '%s' now ...\n", file_name);
 
         //Move file pointer to eof
         fseek(file, 0, SEEK_END);
@@ -46,7 +46,7 @@ char *read_file(char *file_name) {
         //Return file pointer to the beginning of the file
         rewind(file);
         
-        //NEED TO STOP CHILD
+        //If file is empty, return NULL so child can be killed
         if (file_size == 0) {
             printf("Error: This file is empty\n");
             return NULL;

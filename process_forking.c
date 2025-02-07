@@ -16,12 +16,13 @@ int process_forking(char *file_name) {
     //Create pipe (child --> parent)
     int pipe2[2];
     
+    //Ensure pipe was created correctly
     if (pipe(pipe1) == -1 || pipe(pipe2) == -1) {
         perror("pipe");
         exit(EXIT_FAILURE);
     }
 
-    //Create child process
+    //Create child process (parent pid > 0, child pid = 0, -1 if failed)
     pid_t pid = fork();
 
     //Determine what the parent and child processes will do
@@ -44,15 +45,16 @@ int process_forking(char *file_name) {
             exit(EXIT_FAILURE);
         }
 
-        //Send benign signal so that the child knows to continue
+        //Send benign signal so that child can continue
         int stop_signal = 0;
         write(pipe1[1], &stop_signal, sizeof(int));
 
-        printf("Process 1 starts sending data to Process 2 ...\n");
+        //Send buffer to child so it can count
+        printf("Process 1: Sending data to Process 2 ...\n");
         write(pipe1[1], buffer, strlen(buffer) + 1);
         close(pipe1[1]);
 
-        //Wait for child to finish
+        //Wait for child to finish counting
         wait(NULL);
 
         //Read and print results from child
@@ -68,10 +70,9 @@ int process_forking(char *file_name) {
         //Close unused read end of child --> parent
         close(pipe2[0]);
         
-        //Recieve signal from parent, if there is an error, exit
+        //Recieve first signal from parent, if there is an error, exit
         int stop_signal;
         read(pipe1[0], &stop_signal, sizeof(stop_signal));
-
         if (stop_signal == -1) {
             exit(EXIT_FAILURE);
         }
@@ -80,10 +81,10 @@ int process_forking(char *file_name) {
         char recieved_buffer[BUFFER_SIZE];
         read(pipe1[0], recieved_buffer, BUFFER_SIZE - 1);
         close(pipe1[0]);
-        printf("Process 2 finishes receving data from Process 1 ...\n");
+        printf("Process 2: Finished receiving data from Process 1 ...\n");
         
         //Count number of words
-        printf("Process 2 is counting words now ...\n");
+        printf("Process 2: Counting words now ...\n");
         int count = 0;
         int in_word = 0;
 
@@ -98,7 +99,7 @@ int process_forking(char *file_name) {
         }
 
         //Send results back to parent
-        printf("Process 2 is sending the result back to Process 1 ...\n");
+        printf("Process 2: Sending the result back to Process 1 ...\n");
         write(pipe2[1], &count, sizeof(count));
         close(pipe2[1]);
 

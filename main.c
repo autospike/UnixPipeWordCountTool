@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include "pwordcount.h"
 
-
-//char *read_file(char *file_name);
-
 int main(int argc, char *argv[]) {
     printf("Starting main\n");
 
