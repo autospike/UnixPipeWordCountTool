@@ -21,7 +21,7 @@ char *read_file(char *file_name) {
     if (file == NULL) {
         //File dne
         if (errno == ENOENT) {
-            printf("Error: The file %s does not exist\n", file_name);
+            printf("Error: The file '%s' does not exist\n", file_name);
             return NULL;;
         }
         //Insufficient perms

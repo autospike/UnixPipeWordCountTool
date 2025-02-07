@@ -108,7 +108,7 @@ int process_forking(char *file_name) {
     //Fork failed
     else {
         printf("Error: fork failed\n");
-        return 1;
+        exit(EXIT_FAILURE);
     }
 
     return 0;
