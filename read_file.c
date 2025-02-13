@@ -48,7 +48,7 @@ char *read_file(char *file_name) {
     }
     //If the file can be opened
     else {
-        printf("Process 1: Reading file '%s' now ...\n", file_name);
+        printf("Process 1 is reading file '%s' now ...\n", file_name);
 
         //Move file pointer to eof
         fseek(file, 0, SEEK_END);
