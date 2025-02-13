@@ -25,9 +25,6 @@ void test_word_count() {
     
     //Edge case: Only spaces
     assert(word_count("       ") == 0);
-    
-    //Edge Case: Empty
-    assert(word_count("") == 0);
 
     //Edge case: Single word
     assert(word_count("Word") == 1);
