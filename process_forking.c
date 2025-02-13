@@ -1,3 +1,19 @@
+/**
+ * COMP 7500: Project 2 - Pipe-Based Word Count Tool
+ * William Baker
+ * Auburn University
+ * 
+ * process_forking forks the program, creating a parent and a child process.
+ * It also creates pipes so that the processes can communicate, and it directs the parent and child on what to do.
+ * 
+ * The parent calls read_file.c to get the contents of the input file.
+ * It then sends those contents to the child, and waits for the child to send back a number
+ * After recieving the child's response, the parent prints the results.
+ * 
+ * The child recieves the contents of the file from the parent, then calls word_count.c to count the number of words.
+ * The child then sends this information back to the parent.
+ */
+
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -50,10 +66,11 @@ int process_forking(char *file_name) {
         write(pipe1[1], &stop_signal, sizeof(int));
 
         //Send buffer to child so it can count
-        printf("Process 1: Sending data to Process 2 ...\n");
+        printf("Process 1 starts sending data to Process 2 ...\n");
         write(pipe1[1], buffer, strlen(buffer) + 1);
         close(pipe1[1]);
-
+        free(buffer);
+        
         //Wait for child to finish counting
         wait(NULL);
 
@@ -81,25 +98,15 @@ int process_forking(char *file_name) {
         char recieved_buffer[BUFFER_SIZE];
         read(pipe1[0], recieved_buffer, BUFFER_SIZE - 1);
         close(pipe1[0]);
-        printf("Process 2: Finished receiving data from Process 1 ...\n");
+        printf("Process 2 finishes receiving data from Process 1 ...\n");
         
         //Count number of words
-        printf("Process 2: Counting words now ...\n");
-        int count = 0;
-        int in_word = 0;
-
-        for (int i = 0; recieved_buffer[i] != '\0'; i++) {
-            if (isspace(recieved_buffer[i])) {
-                in_word = 0;
-            }
-            else if (in_word == 0) {
-                in_word = 1;
-                count++;
-            }
-        }
+        printf("Process 2 is counting words now ...\n");
+        
+        int count = word_count(recieved_buffer);
 
         //Send results back to parent
-        printf("Process 2: Sending the result back to Process 1 ...\n");
+        printf("Process 2 is sending the result back to Process 1 ...\n");
         write(pipe2[1], &count, sizeof(count));
         close(pipe2[1]);
 

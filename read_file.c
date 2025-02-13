@@ -1,3 +1,14 @@
+/**
+ * COMP 7500: Project 2 - Pipe-Based Word Count Tool
+ * William Baker
+ * Auburn University
+ * 
+ * read_file ensures that the file the user would like to use is valid.
+ * The name of the file is recieved from the parent in process_forking.c.
+ * It ensure that the file is a text file, that it exists, and that the user has the right permissions to use the file.
+ * read_file then write the contents of the file to the buffer, and sends it back to the parent process in process_forking.c.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
