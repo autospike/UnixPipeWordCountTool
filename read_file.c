@@ -57,11 +57,19 @@ char *read_file(char *file_name) {
         //Return file pointer to the beginning of the file
         rewind(file);
         
-        //If file is empty, return NULL so child can be killed
+        //printf("%d\n", file_size);
+
+        //Check if file is empty
         if (file_size == 0) {
             printf("Error: This file is empty\n");
             return NULL;
         }
+        //Check if file is too large (above 16 KB)
+        else if (file_size > 16384) {
+            printf("Error: This file is too large. This program only supports files up to 16KB\n");
+            return NULL;
+            }
+        //
         else {
             //Create a buffer the size of the file + 1 (to add null terminator)
             char *buffer = malloc(file_size + 1);
