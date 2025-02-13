@@ -18,7 +18,6 @@
 #include "pwordcount.h"
 
 int main(int argc, char *argv[]) {
-    printf("Starting main\n");
 
     //Check the number of arguments to ensure there are not too many or too few
     if (argc != 2) {
