@@ -99,10 +99,10 @@ int process_forking(char *file_name) {
         read(pipe1[0], recieved_buffer, BUFFER_SIZE - 1);
         close(pipe1[0]);
         printf("Process 2 finishes receiving data from Process 1 ...\n");
-        
+
         //Count number of words
         printf("Process 2 is counting words now ...\n");
-        
+
         int count = word_count(recieved_buffer);
 
         //Send results back to parent
