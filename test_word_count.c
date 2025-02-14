@@ -4,6 +4,9 @@
  * Auburn University
  * 
  * test_word_count contains various test cases to verify the correctness of word_count.c.
+ * 
+ * This program was compiled with the following command:
+ * gcc -o test_word_count test_word_count.c word_count.c word_count.h -Wall -Werror
  */
 
 #include <stdio.h>
