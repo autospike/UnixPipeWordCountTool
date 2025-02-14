@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <string.h>
-#include "word_count_test.h"
+#include "test_word_count.h"
 
 void test_word_count() {
     //Basic tests

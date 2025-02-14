@@ -8,8 +8,8 @@
  * This file includes necessary function declaration for counting words.
  */
 
-#ifndef word_count_test_H
-#define word_count_test_H
+#ifndef test_word_count_H
+#define test_word_count_H
 
 #include "word_count.h"
 
